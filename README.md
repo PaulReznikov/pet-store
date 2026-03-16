@@ -36,11 +36,10 @@ Pet Store - это backend система для управления зоома
 
 ## Технологический стек
 
-- **Язык:** Go 1.24.5
-- **Фреймворк:** (будет указан при реализации)
+- **Язык:** Go 1.24 или выше
 - **База данных:** PostgreSQL / MySQL
 - **API документация:** Swagger/OpenAPI
-- **Миграции:** пока не понятно, будет определено при реализации
+- **Миграции:** goose
 - **Конфигурация:** ENV файлы / YAML
 
 ## Архитектура проекта
@@ -69,7 +68,7 @@ pet-store/
 ## Требования
 
 - Go 1.24 или выше
-- PostgreSQL 14+ / MySQL 8+
+- PostgreSQL 14+
 - Docker и Docker Compose (опционально)
 
 ## Установка и запуск
@@ -91,6 +90,13 @@ go mod download
 ```bash
 cp .env.example .env
 # Отредактируйте .env файл с вашими настройками
+```
+
+4. Примените миграции базы данных:
+```bash
+make migrate-up
+# или
+cd migrations && goose up
 ```
 
 5. Запустите приложение:
@@ -137,6 +143,11 @@ DB_PASSWORD=your_password
 DB_NAME=petstore_db
 DB_SSLMODE=disable
 
+# Goose (для миграций)
+GOOSE_DRIVER=postgres
+GOOSE_DBSTRING=host=localhost port=5432 user=petstore password=your_password dbname=petstore_db sslmode=disable
+GOOSE_MIGRATION_DIR=./migrations
+
 # Application
 APP_ENV=development
 LOG_LEVEL=debug
@@ -173,9 +184,28 @@ http://localhost:8080/swagger/
 
 ## Разработка
 
-### Добавление новой миграции
+### Работа с миграциями (goose)
+
+
+Создание новой миграции (с timestamp):
 ```bash
-migrate create -ext sql -dir migrations -seq add_new_table
+cd migrations
+goose create add_new_table sql
+```
+
+Применение миграций:
+```bash
+goose up
+```
+
+Откат последней миграции:
+```bash
+goose down
+```
+
+Проверка статуса миграций:
+```bash
+goose status
 ```
 
 ## Безопасность
@@ -196,7 +226,6 @@ migrate create -ext sql -dir migrations -seq add_new_table
 - [ ] Система скидок и акций
 - [ ] Уведомления о низких остатках
 - [ ] REST API для мобильного приложения
-- [ ] GraphQL поддержка
 
 ## Контакты и поддержка
 - Авторы: Paul Reznikov [GitHub](https://github.com/PaulReznikov), Artsem Yunchyts [GitHub](https://github.com/Oliver1ck)
