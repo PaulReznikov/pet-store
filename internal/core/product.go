@@ -40,6 +40,6 @@ type ProductSale struct {
   ProductID int `json:"product_id"`
   Quantity int `json:"quantity"`
   TotalPrice float64 `json:"total_price"`
-  CreatedAt time.Time `json:"created_at"`
-  UpdatedAt time.Time `json:"updated_at"`
+  StartSale time.Time `json:"start_sale"`
+  EndSale time.Time `json:"end_sale"`
 }
