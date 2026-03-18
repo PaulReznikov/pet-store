@@ -94,12 +94,15 @@ cp .env.example .env
 
 4. Примените миграции базы данных:
 ```bash
-make migrate-up
-# или
-cd migrations && goose up
+make migrations-up
 ```
 
-5. Запустите приложение:
+5. Отменение миграций (если нужно):
+```bash
+make migrations-down
+```
+
+6. Запустите приложение: (пока в разработке)
 ```bash
 make run
 # или
@@ -112,6 +115,23 @@ go run cmd/main.go
 docker-compose up -d
 ```
 
+### Запуск pgAdmin для управления базой данных
+
+```bash
+make pgadmin-up
+# или
+docker-compose up -d pgadmin
+```
+
+#### Чтобы подключиться к базе данных через pgAdmin, используйте следующие параметры:
+- Создайте сервер с именем `PetStoreDB`
+- Connection
+  - Host name/address: `localhost`
+  - Port: `5432`
+  - Maintenance database: `petstore_db`
+  - Username: `petstore`
+  - Password: `your_password`
+----
 ## API Endpoints (пока в разработке)
 
 ### Товары (Products)
@@ -123,8 +143,6 @@ docker-compose up -d
 | POST | `/api/v1/products` | Создать новый товар |
 | PUT | `/api/v1/products/:id` | Обновить товар |
 | DELETE | `/api/v1/products/:id` | Удалить товар |
-
-
 
 ## Конфигурация
 
@@ -189,18 +207,17 @@ http://localhost:8080/swagger/
 
 Создание новой миграции (с timestamp):
 ```bash
-cd migrations
 goose create add_new_table sql
 ```
 
 Применение миграций:
 ```bash
-goose up
+make migrations-up
 ```
 
 Откат последней миграции:
 ```bash
-goose down
+make migrations-down
 ```
 
 Проверка статуса миграций:

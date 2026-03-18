@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"embed"
 	"log"
 	"os"
 
 	"database/sql"
+
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 )
@@ -38,7 +40,7 @@ func main() {
 
 	log.Printf("Running goose command: '%s'...\n", command)
 
-	if err := goose.Run(command, db, "scripts"); err != nil {
+	if err := goose.RunContext(context.Background(), command, db, "scripts"); err != nil {
 		log.Fatalf("goose %s failed: %v\n", command, err)
 	}
 	
