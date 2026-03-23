@@ -1,5 +1,8 @@
 -- +goose Up
 -- +goose StatementBegin
+
+CREATE TYPE unit AS ENUM ('кг', 'г', 'л', 'мл', 'шт');
+
 CREATE TABLE IF NOT EXISTS brands (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -38,7 +41,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS product_packages (
   id SERIAL PRIMARY KEY,
   value DECIMAL(10,2) NOT NULL,
-  unit VARCHAR(50) NOT NULL,
+  unit unit NOT NULL,
   count INT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   product_id INT REFERENCES products(id) ON DELETE CASCADE
@@ -53,4 +56,7 @@ DROP TABLE IF EXISTS sales;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS brands;
 DROP TABLE IF EXISTS animals;
+
+-- Drop custom type
+DROP TYPE IF EXISTS unit;
 -- +goose StatementEnd
