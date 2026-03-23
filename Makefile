@@ -15,8 +15,5 @@ migrations-up:
 migrate-down:
 	@docker compose run --rm migrator ./migrator-app down
 
-pgadmin-up:
-	@docker compose up -d pgadmin
-
-pgadmin-down:
-	@docker compose down pgadmin
+run-petstore: 
+	@go run ./cmd/main.go

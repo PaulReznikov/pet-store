@@ -43,6 +43,6 @@ func main() {
 	if err := goose.RunContext(context.Background(), command, db, "scripts"); err != nil {
 		log.Fatalf("goose %s failed: %v\n", command, err)
 	}
-	
+
 	log.Println("Migration command completed successfully!")
 }

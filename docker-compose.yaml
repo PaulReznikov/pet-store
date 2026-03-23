@@ -1,33 +1,30 @@
+# @format
 
 services:
   db:
     image: postgres:18.1-bookworm
-    container_name: terrZoo_postgres_db
+    container_name: postgres_db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-    - ${ROOT}/out/pgdata:/var/lib/postgresql
+      - ${ROOT}/out/pgdata:/var/lib/postgresql
     restart: always
+    ports:
+      - '5432:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_NAME}']
       interval: 5s
       timeout: 5s
       retries: 5
-  migrator: 
+  migrator:
     build:
       context: .
       dockerfile: ./migrations/Dockerfile
-    container_name: terrZoo_goose_migrator
+    container_name: goose_migrator
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?sslmode=${DB_SSLMODE}"
-  pgadmin:
-    image: alpine/socat:1.8.0.3
-    container_name: terrZoo_pgadmin4
-    command: tcp-listen:5432,fork,reuseaddr tcp-connect:db:5432
-    ports:
-      - "127.0.0.1:5432:5432"
+      DATABASE_URL: 'postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?sslmode=${DB_SSLMODE}'
