@@ -25,24 +25,12 @@ type ProductCategory struct {
 
 type ProductUnit string
 
-const (
-	UnitKg  ProductUnit = "кг"
-	UnitG   ProductUnit = "г"
-	UnitL   ProductUnit = "л"
-	UnitMl  ProductUnit = "мл"
-	UnitPcs ProductUnit = "шт"
-)
-
 type ProductPackages struct {
 	ID        int `json:"id"`
 	ProductID int `json:"product_id"`
-	// Value - фактическое значение фасовки
 	Value float64 `json:"value"`
-	// Unit - единица измерения
 	Unit ProductUnit `json:"unit"`
-	// Count - количество товара в наличии для данной фасовки
 	Count int `json:"count"`
-	// Price - цена товара в данной фасовке
 	Price float64 `json:"price"`
 }
 
