@@ -13,8 +13,8 @@ linters:
     - gocritic
     - gosec
     - mnd
-    - revive
     - whitespace
+    - lll
 
   settings:
     gocritic:
@@ -36,12 +36,6 @@ linters:
       enable:
         - nilness
         - shadow
-    gci: 
-      custom-order: true
-      sections: 
-        - standard
-        - default
-        - prefix(github.com/PaulReznikov/pet-store)
 
   exclusions:
     presets:
@@ -63,8 +57,13 @@ formatters:
     - goimports
     - gci
 
-  
   settings:
+    gci: 
+      custom-order: true
+      sections: 
+        - standard
+        - default
+        - prefix(github.com/PaulReznikov/pet-store)
     gofmt:
       rewrite-rules:
         - pattern: 'interface{}'

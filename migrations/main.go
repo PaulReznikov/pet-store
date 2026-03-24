@@ -5,11 +5,12 @@ import (
 	"embed"
 	"os"
 
-	"github.com/PaulReznikov/pet-store/internal/config"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"github.com/PaulReznikov/pet-store/internal/config"
 )
 
 //go:embed scripts/*.sql

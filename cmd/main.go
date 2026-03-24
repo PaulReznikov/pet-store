@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/PaulReznikov/pet-store/internal/config"
 	"github.com/rs/zerolog/log"
+
+	"github.com/PaulReznikov/pet-store/internal/config"
 )
 
 func main() {
