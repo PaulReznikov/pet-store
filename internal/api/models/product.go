@@ -26,12 +26,12 @@ type ProductCategory struct {
 type ProductUnit string
 
 type ProductPackages struct {
-	ID        int `json:"id"`
-	ProductID int `json:"product_id"`
-	Value float64 `json:"value"`
-	Unit ProductUnit `json:"unit"`
-	Count int `json:"count"`
-	Price float64 `json:"price"`
+	ID        int         `json:"id"`
+	ProductID int         `json:"product_id"`
+	Value     float64     `json:"value"`
+	Unit      ProductUnit `json:"unit"`
+	Count     int         `json:"count"`
+	Price     float64     `json:"price"`
 }
 
 type ProductSale struct {
