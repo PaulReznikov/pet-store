@@ -5,11 +5,12 @@ import (
 	"embed"
 	"os"
 
-	"github.com/PaulReznikov/pet-store/internal/config"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"github.com/PaulReznikov/pet-store/internal/config"
 )
 
 //go:embed scripts/*.sql
@@ -20,11 +21,11 @@ func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
 
 	goose.SetBaseFS(embedMigrations)
-	config, err := config.LoadConfig()
+	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to load config")
 	}
-	dbString := config.Postgres.CreateDBConnectionString()
+	dbString := cfg.Postgres.CreateDBConnectionString()
 	if dbString == "" {
 		log.Fatal().Msg("DATABASE_URL is not set")
 	}
@@ -35,13 +36,16 @@ func main() {
 	}
 	defer db.Close()
 
-	if err := goose.SetDialect("postgres"); err != nil {
-		log.Fatal().Err(err).Msg("Failed to set dialect")
+	err = goose.SetDialect("postgres")
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to set dialect")
+		return
 	}
 
 	currentVersion, err := goose.GetDBVersion(db)
 	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to get current DB version")
+		log.Error().Err(err).Msg("Failed to get current DB version")
+		return
 	}
 
 	log.Info().Int64("current_version", currentVersion).Msg("Starting migration")
@@ -50,13 +54,13 @@ func main() {
 		log.Error().Err(err).Msg("Migration failed, attempting rollback")
 
 		if rollbackErr := goose.DownTo(db, "scripts", currentVersion); rollbackErr != nil {
-			log.Fatal().
+			log.Error().
 				Err(err).
 				AnErr("rollback_error", rollbackErr).
 				Msg("Migration failed AND rollback failed")
 		}
 
-		log.Fatal().Err(err).Msg("Migration failed (rollback succeeded)")
+		log.Error().Err(err).Msg("Migration failed (rollback succeeded)")
 	}
 
 	newVersion, _ := goose.GetDBVersion(db)
