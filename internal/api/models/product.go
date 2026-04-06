@@ -23,8 +23,6 @@ type ProductCategory struct {
 	ParentID *int   `json:"parent_id,omitempty"`
 }
 
-type ProductUnit string
-
 type ProductPackages struct {
 	ID        int         `json:"id"`
 	ProductID int         `json:"product_id"`

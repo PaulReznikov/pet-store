@@ -1,5 +1,7 @@
 package models
 
+type ProductUnit string
+
 const (
 	UnitKg  ProductUnit = "кг"
 	UnitG   ProductUnit = "г"

@@ -12,5 +12,13 @@ type Postgres struct {
 }
 
 func (pgConf *Postgres) CreateDBConnectionString() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", pgConf.DB_USER, pgConf.DB_PASSWORD, pgConf.DB_HOST, pgConf.DB_PORT, pgConf.DB_NAME, pgConf.DB_SSLMODE)
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
+		pgConf.DB_USER,
+		pgConf.DB_PASSWORD,
+		pgConf.DB_HOST,
+		pgConf.DB_PORT,
+		pgConf.DB_NAME,
+		pgConf.DB_SSLMODE,
+	)
 }
