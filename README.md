@@ -94,15 +94,15 @@ cp .env.example .env
 
 4. Примените миграции базы данных:
 ```bash
-make migrations-up
+make migrate-up
 ```
 
 5. Отменение миграций (если нужно):
 ```bash
-make migrations-down
+make migrate-down
 ```
 
-6. Запустите приложение: (пока в разработке)
+6. Запустите приложение:
 ```bash
 make run
 # или
@@ -115,22 +115,6 @@ go run cmd/main.go
 docker-compose up -d
 ```
 
-### Запуск pgAdmin для управления базой данных
-
-```bash
-make pgadmin-up
-# или
-docker-compose up -d pgadmin
-```
-
-#### Чтобы подключиться к базе данных через pgAdmin, используйте следующие параметры:
-- Создайте сервер с именем `PetStoreDB`
-- Connection
-  - Host name/address: `localhost`
-  - Port: `5432`
-  - Maintenance database: `petstore_db`
-  - Username: `petstore`
-  - Password: `your_password`
 ----
 ## API Endpoints (пока в разработке)
 
@@ -175,7 +159,7 @@ MAX_UPLOAD_SIZE=10485760  # 10MB
 ALLOWED_FORMATS=csv,json
 ```
 
-## Тестирование
+## Тестирование (в разработке)
 
 Запуск всех тестов:
 ```bash
