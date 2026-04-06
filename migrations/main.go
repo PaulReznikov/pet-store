@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to load config")
 	}
-	dbString := config.CreateDBConnectionString()
+	dbString := config.Postgres.CreateDBConnectionString()
 	if dbString == "" {
 		log.Fatal().Msg("DATABASE_URL is not set")
 	}
