@@ -9,7 +9,7 @@ db-up:
 db-down:
 	@docker compose down db
 
-migrations-up:
+migrate-up:
 	@docker compose up --build migrator
 
 migrate-down:
@@ -17,3 +17,9 @@ migrate-down:
 
 run-petstore: 
 	@go run ./cmd/main.go
+
+lint: 
+	@golangci-lint run
+
+lint-fix: 
+	@golangci-lint run --fix
